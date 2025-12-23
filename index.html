@@ -1,0 +1,35 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Generator</title>
+</head>
+<body>
+    <h2>Password Generator</h2>
+
+    <input type="number" id="length" value="12">
+    <label>
+        <input type="checkbox" id="symbols" checked> Symbols
+    </label>
+    <button onclick="generate()">Generate</button>
+
+    <p id="result"></p>
+
+<script>
+function generate() {
+    fetch("/generate", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            length: document.getElementById("length").value,
+            symbols: document.getElementById("symbols").checked
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText = data.password;
+    });
+}
+</script>
+</body>
+</html>
